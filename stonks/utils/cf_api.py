@@ -36,6 +36,12 @@ class CodeforcesAPI:
         response = await self.api_response()
         return response["result"][0]["rating"]
 
+    async def get_ratings(self, users):
+        self.handle = ";".join(users)
+        self.url = "https://codeforces.com/api/user.info?handles=%s" % self.handle
+        response = await self.api_response()
+        return [res["rating"] for res in response["result"]]
+
     async def get_best_rating(self, user):
         self.handle = user
         self.url = "https://codeforces.com/api/user.info?handles=%s" % self.handle
