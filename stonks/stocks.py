@@ -45,6 +45,16 @@ class Stocks(commands.Cog):
                 self.db.update_rating(to_update[i], ratings[i])
         await ctx.channel.send(embed=self.embed("Ratings have been updated."))
 
+    @commands.command(brief='About the bot.')
+    async def about(self, ctx):
+        embed = Embed(title="About Stonks",
+                      description="Stonks is a bot created by manish#9999 using "
+                                  "[discord.py](https://discordpy.readthedocs.io/en/latest/index.html). The source "
+                                  "code can be found [here](https://github.com/iammanish17/Stonks)!",
+                      color=Color.dark_teal())
+        embed.set_footer(text=f"Requested by {str(ctx.author)}", icon_url=ctx.author.avatar_url)
+        await ctx.channel.send(embed=embed)
+
     @commands.command(brief='Register your Codeforces handle!')
     async def register(self, ctx, username: str):
         """Register your Codeforces handle!"""
