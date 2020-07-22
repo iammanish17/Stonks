@@ -31,13 +31,18 @@ class Stocks(commands.Cog):
         return Embed(description=text, color=color)
 
     async def update_ratings(self, ctx):
-        c = 0
+        to_update = []
         for handle in self.db.get_all_handles():
-            rating = await self.cf.get_rating(handle)
-            self.db.update_rating(handle, rating)
-            c += 1
-            if c % 4:
-                await asyncio.sleep(1)
+            to_update += [handle]
+            if len(to_update) == 5:
+                ratings = await self.cf.get_ratings(to_update)
+                for i in range(5):
+                    self.db.update_rating(to_update[i], ratings[i])
+                to_update = []
+        if to_update:
+            ratings = await self.cf.get_ratings(to_update)
+            for i in range(len(ratings)):
+                self.db.update_rating(to_update[i], ratings[i])
         await ctx.channel.send(embed=self.embed("Ratings have been updated."))
 
     @commands.command(brief='Register your Codeforces handle!')
