@@ -339,6 +339,8 @@ class Stocks(commands.Cog):
         """Enable/disable trading (Admin-use only)!
             +trading <enable/disable>"""
         if value.lower() == "enable":
+            await ctx.channel.send(embed=self.embed("Updating ratings first before enabling trading... Please wait."))
+            await self.update_ratings(ctx)
             self.trading = 1
             await ctx.channel.send(embed=self.embed("Successfully enabled trading!"))
         elif value.lower() == "disable":
