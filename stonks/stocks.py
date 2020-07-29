@@ -305,8 +305,7 @@ class Stocks(commands.Cog):
             worth, owner = top[0][i], top[1][i]
             count += 1
             member = utils.get(ctx.guild.members, id=int(owner))
-            if member:
-                data.append([str(count), member.name, "$%.2f" % worth])
+            data.append([str(count), member.name if member else self.db.get_handle(int(owner)), "$%.2f" % worth])
         await paginator.Paginator(data, headers, title).paginate(ctx, self.client)
 
     @commands.command(brief='Shows leaderboards ordered by money!')
