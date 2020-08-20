@@ -327,14 +327,14 @@ class Stocks(commands.Cog):
         await paginator.Paginator(data, headers, title).paginate(ctx, self.client)
 
     @commands.command(brief='Update ratings for all users!')
-    @commands.has_role('Admin')
+    @commands.check_any(commands.is_owner(), commands.has_role('Admin'))
     async def updateratings(self, ctx):
         """Updates ratings for all users after any contest (Admin-use only)!"""
         await ctx.channel.send(embed=self.embed("Updating ratings... Please wait."))
         await self.update_ratings(ctx)
 
     @commands.command(brief='Enable/disable trading!')
-    @commands.has_role('Admin')
+    @commands.check_any(commands.is_owner(), commands.has_role('Admin'))
     async def trading(self, ctx, value: str):
         """Enable/disable trading (Admin-use only)!
             +trading <enable/disable>"""
@@ -432,7 +432,7 @@ class Stocks(commands.Cog):
         await ctx.channel.send(embed=embed, file=discord_file)
 
     @commands.command(brief='Force register a member!')
-    @commands.has_role('Admin')
+    @commands.check_any(commands.is_owner(), commands.has_role('Admin'))
     async def forceregister(self, ctx, member: Member, username: str):
         """Force register a member!"""
         if member.id in self.users:
@@ -459,7 +459,7 @@ class Stocks(commands.Cog):
                                                                                                     username)))
 
     @commands.command(brief='Change a member\'s handle!')
-    @commands.has_role('Admin')
+    @commands.check_any(commands.is_owner(), commands.has_role('Admin'))
     async def updateuser(self, ctx, member: Member, new: str):
         if member.id not in self.users:
             await ctx.channel.send(embed=self.embed("The user is not registered."))
